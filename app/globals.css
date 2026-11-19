@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-tile: #F5F2ED;
+  --color-line: #E8E4DE;
+  --color-line-strong: #D6D0C7;
+  --color-ink: #111111;
+  --color-body: #3D3D3D;
+  --color-muted: #6B6B6B;
+  --color-brand: #B30000;
+  --color-brand-dark: #8F0000;
+  --color-brand-tint: #FDECEC;
+  --color-brand-line: #F2C6C6;
+  --color-success: #15803D;
+  --color-success-tint: #E8F5EC;
+  --color-warning: #B45309;
+  --color-warning-tint: #FEF3C7;
+
+  --font-sans: var(--font-roboto), var(--font-inter), Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: var(--font-roboto), var(--font-inter), Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --radius-card: 12px;
+  --radius-btn: 6px;
+  --radius-pill: 9999px;
+
+  --shadow-soft: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-card: 0 4px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/*
+  Hardening against dark-mode leaks:
+  Tailwind v4 custom variant maps dark to an explicit .dark class that is never rendered.
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  "only light" forces browsers and mobile OS to render light mode.
+  Prevents Chromium / Edge / iOS Safari auto-dark-mode from inverting warm tints.
+*/
+:root {
+  color-scheme: only light;
+  --background: #FAF8F5;
+  --foreground: #111111;
+}
+
+html {
+  color-scheme: only light !important;
+  background-color: var(--color-paper) !important;
+}
+
+body {
+  color-scheme: only light;
+  background-color: var(--color-paper) !important;
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+  outline: 2px solid #B30000;
+  outline-offset: 2px;
+}
+
+/* Hide scrollbar for horizontal scrollers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Snap helpers */
+.snap-x {
+  scroll-snap-type: x mandatory;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+.snap-center {
+  scroll-snap-align: center;
+}
+
+/* Fade in up for toast */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Numerals: tabular & lining digits (₹1,650, VU-24617) */
+.font-tabular,
+.tabular-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+  -moz-font-feature-settings: "tnum" 1, "lnum" 1;
+  -webkit-font-feature-settings: "tnum" 1, "lnum" 1;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* Typography Scale (Flipkart-style: Roboto 400/500/700, no serif) */
+.type-h1 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.type-h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.type-h3 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.type-body {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+.type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.type-price {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+}

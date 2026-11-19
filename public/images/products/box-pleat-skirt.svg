@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#FFFFFF" rx="8" />
+  <!-- Forest Green / Tartan Box Pleated School Skirt -->
+  <g transform="translate(65, 45)">
+    <!-- Waistband with button -->
+    <path d="M50,40 L220,40 L230,65 L40,65 Z" fill="#14532D" stroke="#052E16" stroke-width="1.5" />
+    <circle cx="215" cy="52" r="3.5" fill="#15803D" stroke="#86EFAC" stroke-width="1" />
+    <!-- Box Pleats Skirt Body -->
+    <path d="M40,65 L230,65 L255,290 L15,290 Z" fill="#166534" stroke="#052E16" stroke-width="2" />
+    <!-- Alternating box-pleat panels and shadow folds -->
+    <polygon points="50,65 85,65 80,290 35,290" fill="#15803D" />
+    <polygon points="85,65 110,65 115,290 80,290" fill="#14532D" />
+    <polygon points="110,65 145,65 155,290 115,290" fill="#15803D" />
+    <polygon points="145,65 170,65 185,290 155,290" fill="#14532D" />
+    <polygon points="170,65 205,65 225,290 185,290" fill="#15803D" />
+    <polygon points="205,65 230,65 255,290 225,290" fill="#14532D" />
+    <!-- Fine Tartan Grid lines -->
+    <g stroke="#F59E0B" stroke-width="1" stroke-opacity="0.5">
+      <line x1="30" y1="130" x2="240" y2="130" />
+      <line x1="25" y1="190" x2="245" y2="190" />
+      <line x1="20" y1="250" x2="250" y2="250" />
+    </g>
+    <g stroke="#B30000" stroke-width="0.8" stroke-opacity="0.6">
+      <line x1="68" y1="65" x2="60" y2="290" />
+      <line x1="135" y1="65" x2="142" y2="290" />
+      <line x1="195" y1="65" x2="210" y2="290" />
+    </g>
+    <!-- Bottom Hem stitch -->
+    <line x1="15" y1="282" x2="255" y2="282" stroke="#14532D" stroke-width="1.5" stroke-dasharray="4 2" />
+  </g>
+</svg>

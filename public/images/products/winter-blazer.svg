@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#FFFFFF" rx="8" />
+  <!-- Navy Wool-Blend Formal School Blazer with Gold Crest & Buttons -->
+  <g transform="translate(65, 40)">
+    <!-- Back Collar & Inner Lining -->
+    <path d="M100,30 L170,30 L195,65 L75,65 Z" fill="#991B1B" />
+    <text x="135" y="48" font-family="serif" font-size="7" font-weight="bold" fill="#FDE68A" text-anchor="middle">VARDHMAN EST. 1979</text>
+    <!-- Lapels -->
+    <polygon points="100,30 135,160 85,75" fill="#1E3A8A" stroke="#0F172A" stroke-width="1.5" />
+    <polygon points="170,30 135,160 185,75" fill="#1E3A8A" stroke="#0F172A" stroke-width="1.5" />
+    <polygon points="85,75 70,110 110,135 135,160" fill="#172554" stroke="#0F172A" stroke-width="1.5" />
+    <polygon points="185,75 200,110 160,135 135,160" fill="#172554" stroke="#0F172A" stroke-width="1.5" />
+    <!-- Main Body & Sleeves -->
+    <path d="M70,75 L20,110 L15,260 L45,265 L55,180 L50,300 L220,300 L215,180 L225,265 L255,260 L250,110 L200,75 Z" fill="#1E3A8A" stroke="#0F172A" stroke-width="2" />
+    <!-- Front Overlap Closure -->
+    <line x1="135" y1="160" x2="135" y2="300" stroke="#0F172A" stroke-width="2" />
+    <!-- Embossed Gold Shank Buttons -->
+    <circle cx="135" cy="180" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+    <circle cx="135" cy="225" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+    <circle cx="135" cy="270" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+    <!-- Gold Embroidered Breast Pocket Crest -->
+    <path d="M75,120 L105,120 L105,150 L90,160 L75,150 Z" fill="#172554" stroke="#F59E0B" stroke-width="1.5" />
+    <circle cx="90" cy="135" r="6" fill="#B30000" stroke="#F59E0B" stroke-width="1" />
+    <text x="90" y="138" font-family="serif" font-size="6" font-weight="bold" fill="#FFFFFF" text-anchor="middle">DAV</text>
+    <!-- Flap Lower Pockets -->
+    <rect x="55" y="215" width="45" height="25" rx="3" fill="#172554" stroke="#0F172A" stroke-width="1.5" />
+    <rect x="170" y="215" width="45" height="25" rx="3" fill="#172554" stroke="#0F172A" stroke-width="1.5" />
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#FFFFFF" rx="8" />
+  <!-- Folded White Oxford Cotton Shirt -->
+  <g transform="translate(60, 50)">
+    <!-- Main Body -->
+    <rect x="30" y="70" width="220" height="230" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2" />
+    <path d="M30,70 L140,70 L250,70" stroke="#CBD5E1" stroke-width="1.5" />
+    <!-- Collar -->
+    <polygon points="140,70 100,20 140,35 180,20" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" />
+    <polygon points="100,20 140,65 140,35" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" />
+    <polygon points="180,20 140,65 140,35" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5" />
+    <circle cx="140" cy="50" r="3" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1" />
+    <!-- Front Placket & Buttons -->
+    <rect x="133" y="65" width="14" height="235" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5" />
+    <circle cx="140" cy="100" r="3.5" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5" />
+    <circle cx="140" cy="145" r="3.5" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5" />
+    <circle cx="140" cy="190" r="3.5" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5" />
+    <circle cx="140" cy="235" r="3.5" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5" />
+    <!-- Left Chest Pocket with School Monogram -->
+    <path d="M60,115 L105,115 L105,160 L82,175 L60,160 Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+    <!-- Embroidered Crest -->
+    <path d="M74,130 L91,130 L91,146 L82.5,153 L74,146 Z" fill="#B30000" />
+    <text x="82.5" y="144" font-family="serif" font-size="8" font-weight="bold" fill="#FFFFFF" text-anchor="middle">GPS</text>
+    <!-- Folded Sleeves lines -->
+    <line x1="30" y1="120" x2="30" y2="280" stroke="#E2E8F0" stroke-width="2" />
+    <line x1="250" y1="120" x2="250" y2="280" stroke="#E2E8F0" stroke-width="2" />
+    <rect x="15" y="240" width="25" height="55" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+    <rect x="240" y="240" width="25" height="55" rx="3" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+  </g>
+</svg>
