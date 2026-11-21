@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle, ShieldCheck, Truck, CreditCard } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { user } from "@/data/user";
+import { orderService } from "@/services/orderService";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -16,9 +17,14 @@ export default function CheckoutPage() {
 
   const finalTotal = subtotal;
 
-  const handlePlaceOrder = () => {
-    const generatedId = `VU-${Math.floor(24620 + Math.random() * 900)}`;
-    setOrderNumber(generatedId);
+  const handlePlaceOrder = async () => {
+    const res = await orderService.createOrder({
+      items: cart,
+      total: finalTotal,
+      paymentMethod,
+    });
+    const orderId = res.data?.id || `VU-${Math.floor(24620 + Math.random() * 900)}`;
+    setOrderNumber(orderId);
     setStep("complete");
     clearCart();
   };

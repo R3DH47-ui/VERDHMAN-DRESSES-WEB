@@ -8,19 +8,22 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function ProductDetailPage({ params }) {
+async function ProductDetailContent({ params }) {
   const resolvedParams = await params;
   const productId = resolvedParams?.id || "prod-001";
+  return <ProductDetailClient productId={productId} />;
+}
 
+export default function ProductDetailPage({ params }) {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1280px] p-8 text-center text-muted">
+        <div className="mx-auto w-full max-w-7xl p-8 text-center text-muted">
           Loading uniform details...
         </div>
       }
     >
-      <ProductDetailClient productId={productId} />
+      <ProductDetailContent params={params} />
     </Suspense>
   );
 }

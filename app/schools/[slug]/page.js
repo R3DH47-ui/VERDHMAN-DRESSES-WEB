@@ -8,19 +8,22 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function SchoolUniformPage({ params }) {
+async function SchoolUniformContent({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams?.slug || "greenfield-public";
+  return <SchoolUniformClient slug={slug} />;
+}
 
+export default function SchoolUniformPage({ params }) {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto w-full max-w-[1280px] p-8 text-center text-muted">
+        <div className="mx-auto w-full max-w-7xl p-8 text-center text-muted">
           Loading school catalog...
         </div>
       }
     >
-      <SchoolUniformClient slug={slug} />
+      <SchoolUniformContent params={params} />
     </Suspense>
   );
 }
