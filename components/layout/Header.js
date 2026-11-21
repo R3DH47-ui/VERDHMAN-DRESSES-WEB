@@ -2,8 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Search, ShoppingCart, Menu, X } from "lucide-react";
-import { useState } from "react";
+import {
+  Bell,
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  ClipboardList,
+  ChevronRight,
+} from "lucide-react";
+import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { useProfile } from "@/context/ProfileContext";
 import BrandLogo from "@/components/layout/BrandLogo";
@@ -31,6 +39,14 @@ export default function Header() {
   const { totalItems } = useCart();
   const { profile } = useProfile();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenMenu = () => setDrawerOpen(true);
+    window.addEventListener("vardhman-open-menu", handleOpenMenu);
+    return () => {
+      window.removeEventListener("vardhman-open-menu", handleOpenMenu);
+    };
+  }, []);
 
   return (
     <>
@@ -90,18 +106,6 @@ export default function Header() {
               <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-brand rounded-full" />
             </button>
             <Link
-              href="/cart"
-              className="relative md:hidden flex items-center justify-center w-9 h-9 rounded-full border border-line bg-surface text-ink hover:bg-tile"
-              aria-label="Cart"
-            >
-              <ShoppingCart size={16} strokeWidth={1.8} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[9px] font-bold text-white bg-brand rounded-full">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-            <Link
               href="/account"
               className="flex items-center justify-center w-8 h-8 rounded-full bg-brand-tint border border-brand-line text-brand text-xs font-bold overflow-hidden hover:scale-105 transition"
               aria-label="My Account"
@@ -127,7 +131,7 @@ export default function Header() {
             onClick={() => setDrawerOpen(false)}
           />
           <aside className="absolute right-0 top-0 h-full w-72 bg-surface shadow-card p-6 flex flex-col gap-4 border-l border-line">
-            <div className="flex items-center justify-between mb-4 border-b border-line pb-3">
+            <div className="flex items-center justify-between mb-2 border-b border-line pb-3">
               <span className="text-lg font-bold text-ink">Menu</span>
               <button
                 onClick={() => setDrawerOpen(false)}
@@ -137,13 +141,48 @@ export default function Header() {
                 <X size={18} strokeWidth={1.8} />
               </button>
             </div>
+
+            {/* Orders and Cart rows for mobile menu */}
+            <div className="flex flex-col border-b border-line pb-2 mb-1">
+              <Link
+                href="/orders"
+                onClick={() => setDrawerOpen(false)}
+                className="flex items-center justify-between py-2.5 px-2 rounded-btn hover:bg-tile text-ink hover:text-brand transition duration-150 active:scale-[0.98] group"
+              >
+                <div className="flex items-center gap-3">
+                  <ClipboardList size={18} className="text-brand" strokeWidth={1.8} />
+                  <span className="text-sm font-semibold">Orders</span>
+                </div>
+                <ChevronRight size={16} className="text-muted group-hover:text-ink transition" />
+              </Link>
+              <Link
+                href="/cart"
+                onClick={() => setDrawerOpen(false)}
+                className="flex items-center justify-between py-2.5 px-2 rounded-btn hover:bg-tile text-ink hover:text-brand transition duration-150 active:scale-[0.98] group"
+              >
+                <div className="flex items-center gap-3">
+                  <ShoppingCart size={18} className="text-brand" strokeWidth={1.8} />
+                  <span className="text-sm font-semibold">Cart</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {totalItems > 0 && (
+                    <span className="inline-flex items-center justify-center px-1.5 py-0.2 rounded-full text-[10px] font-bold font-tabular bg-brand text-white">
+                      {totalItems}
+                    </span>
+                  )}
+                  <ChevronRight size={16} className="text-muted group-hover:text-ink transition" />
+                </div>
+              </Link>
+            </div>
+
+            {/* Standard drawer links */}
             {DRAWER_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setDrawerOpen(false)}
                 className={cn(
-                  "text-sm text-body py-2.5 border-b border-line last:border-0 hover:text-brand transition duration-150 font-medium",
+                  "text-sm text-body py-2.5 border-b border-line last:border-0 hover:text-brand transition duration-150 font-medium active:scale-[0.98]",
                   link.label === "Log Out" && "text-brand font-bold border-0 mt-4 hover:text-brand-dark"
                 )}
               >

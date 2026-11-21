@@ -6,12 +6,13 @@ import { orders } from "@/data/orders";
  */
 export function mapOrderDTO(raw) {
   if (!raw) return null;
+  const parsedTotal = typeof raw.total === "number" ? raw.total : Number.parseFloat(raw.total || 0);
   return {
     id: String(raw.id || raw.order_id),
     date: raw.date || raw.created_at || new Date().toISOString(),
     status: raw.status || "placed",
     statusLabel: raw.statusLabel || raw.status_label || "Order Placed",
-    total: typeof raw.total === "number" ? raw.total : Number.parseFloat(raw.total || 0),
+    total: parsedTotal,
     items: Array.isArray(raw.items) ? raw.items : [],
     deliveryDate: raw.deliveryDate || raw.delivery_date || "",
     tracking: raw.tracking || {

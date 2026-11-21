@@ -1,91 +1,109 @@
 "use client";
 
-import { createContext, useContext, useReducer, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useCallback,
+  useSyncExternalStore,
+} from "react";
 import { SEED_DEMO_CART } from "@/lib/config";
 import { demoCartItems } from "@/data/cart";
 
 const CartContext = createContext(null);
 
 const STORAGE_KEY = "vardhman-cart";
+const CART_UPDATE_EVENT = "vardhman-cart-update";
 
-function getInitialCart() {
-  if (typeof window === "undefined") return [];
+function subscribe(callback) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", callback);
+  window.addEventListener(CART_UPDATE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(CART_UPDATE_EVENT, callback);
+  };
+}
+
+function getSnapshot() {
+  if (typeof window === "undefined") return "[]";
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
+    if (stored !== null) return stored;
     if (SEED_DEMO_CART) {
-      return demoCartItems;
+      const demoStr = JSON.stringify(demoCartItems);
+      localStorage.setItem(STORAGE_KEY, demoStr);
+      return demoStr;
     }
-    return [];
+    return "[]";
   } catch {
-    return SEED_DEMO_CART ? demoCartItems : [];
+    return "[]";
   }
 }
 
-function cartReducer(state, action) {
-  switch (action.type) {
-    case "HYDRATE":
-      return action.payload;
-    case "ADD": {
-      const existing = state.find(
-        (item) => item.id === action.payload.id && item.size === action.payload.size
-      );
-      if (existing) {
-        return state.map((item) =>
-          item.id === action.payload.id && item.size === action.payload.size
-            ? { ...item, qty: item.qty + 1 }
-            : item
-        );
-      }
-      return [...state, { ...action.payload, qty: 1 }];
-    }
-    case "REMOVE":
-      return state.filter(
-        (item) => !(item.id === action.payload.id && item.size === action.payload.size)
-      );
-    case "SET_QTY":
-      return state.map((item) =>
-        item.id === action.payload.id && item.size === action.payload.size
-          ? { ...item, qty: Math.max(1, action.payload.qty) }
-          : item
-      );
-    case "CLEAR":
-      return [];
-    default:
-      return state;
-  }
+function getServerSnapshot() {
+  return "[]";
 }
 
 export function CartProvider({ children }) {
-  const [cart, dispatch] = useReducer(cartReducer, []);
+  const rawData = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    dispatch({ type: "HYDRATE", payload: getInitialCart() });
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  const cart = useMemo(() => {
+    if (!rawData) return [];
+    try {
+      const parsed = JSON.parse(rawData);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
     }
-  }, [cart]);
+  }, [rawData]);
+
+  const saveCart = useCallback((nextCart) => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextCart));
+      window.dispatchEvent(new Event(CART_UPDATE_EVENT));
+    } catch {
+      // Storage error fallback
+    }
+  }, []);
 
   const addToCart = useCallback(
     (product, size = "30", school = "") => {
-      dispatch({
-        type: "ADD",
-        payload: {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          mrp: product.mrp,
-          image: product.image,
-          size,
-          school,
-        },
-      });
+      const current = (() => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : (SEED_DEMO_CART ? demoCartItems : []);
+        } catch {
+          return [];
+        }
+      })();
+      const existing = current.find(
+        (item) => item.id === product.id && item.size === size
+      );
+      let updated;
+      if (existing) {
+        updated = current.map((item) =>
+          item.id === product.id && item.size === size
+            ? { ...item, qty: item.qty + 1 }
+            : item
+        );
+      } else {
+        updated = [
+          ...current,
+          {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            mrp: product.mrp,
+            image: product.image,
+            size,
+            school,
+            qty: 1,
+          },
+        ];
+      }
+      saveCart(updated);
       if (typeof window !== "undefined") {
         window.dispatchEvent(
           new CustomEvent("vardhman-toast", {
@@ -94,27 +112,57 @@ export function CartProvider({ children }) {
         );
       }
     },
-    []
+    [saveCart]
   );
 
-  const removeFromCart = useCallback((id, size) => {
-    dispatch({ type: "REMOVE", payload: { id, size } });
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(
-        new CustomEvent("vardhman-toast", {
-          detail: { message: "Removed from cart", type: "info" },
-        })
+  const removeFromCart = useCallback(
+    (id, size) => {
+      const current = (() => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      })();
+      const updated = current.filter(
+        (item) => !(item.id === id && item.size === size)
       );
-    }
-  }, []);
+      saveCart(updated);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("vardhman-toast", {
+            detail: { message: "Removed from cart", type: "info" },
+          })
+        );
+      }
+    },
+    [saveCart]
+  );
 
-  const setQty = useCallback((id, size, qty) => {
-    dispatch({ type: "SET_QTY", payload: { id, size, qty } });
-  }, []);
+  const setQty = useCallback(
+    (id, size, qty) => {
+      const current = (() => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      })();
+      const updated = current.map((item) =>
+        item.id === id && item.size === size
+          ? { ...item, qty: Math.max(1, qty) }
+          : item
+      );
+      saveCart(updated);
+    },
+    [saveCart]
+  );
 
   const clearCart = useCallback(() => {
-    dispatch({ type: "CLEAR" });
-  }, []);
+    saveCart([]);
+  }, [saveCart]);
 
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);

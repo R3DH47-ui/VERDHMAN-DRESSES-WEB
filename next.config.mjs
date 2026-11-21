@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
+const rawDevOrigins = process.env.DEV_ALLOWED_ORIGINS || "";
+const devOrigins = rawDevOrigins
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const nextConfig = {
-  allowedDevOrigins: ['10.82.83.176', '192.168.56.1', 'localhost', '127.0.0.1'],
+  allowedDevOrigins: devOrigins,
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

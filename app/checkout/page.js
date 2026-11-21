@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ArrowLeft, CheckCircle, ShieldCheck, Truck, CreditCard } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { user } from "@/data/user";
 import { orderService } from "@/services/orderService";
 
 export default function CheckoutPage() {
-  const router = useRouter();
   const { cart, subtotal, clearCart } = useCart();
   const [step, setStep] = useState("review"); // review -> payment -> complete
   const [paymentMethod, setPaymentMethod] = useState("upi");
@@ -60,7 +58,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1000px] px-4 md:px-6 lg:px-10 py-6 md:py-10 space-y-6">
+    <div className="mx-auto w-full max-w-250 px-4 md:px-6 lg:px-10 py-6 md:py-10 space-y-6">
       <div>
         <Link
           href="/cart"
@@ -109,6 +107,7 @@ export default function CheckoutPage() {
               ].map((m) => (
                 <label
                   key={m.id}
+                  htmlFor={`payment-${m.id}`}
                   className={`flex items-start gap-3 p-3 rounded-[10px] border cursor-pointer transition ${
                     paymentMethod === m.id
                       ? "border-brand bg-brand-tint"
@@ -117,6 +116,7 @@ export default function CheckoutPage() {
                 >
                   <input
                     type="radio"
+                    id={`payment-${m.id}`}
                     name="payment"
                     value={m.id}
                     checked={paymentMethod === m.id}
