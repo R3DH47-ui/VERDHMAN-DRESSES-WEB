@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 110" width="100%" height="100%">
+  <defs>
+    <linearGradient id="lsweep" x1="-100%" y1="0%" x2="200%" y2="0%">
+      <stop offset="0%" stop-color="white" stop-opacity="0"/>
+      <stop offset="50%" stop-color="white" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+      <animate attributeName="x1" from="-100%" to="100%" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="x2" from="0%" to="200%" dur="3s" repeatCount="indefinite"/>
+    </linearGradient>
+    <clipPath id="barClip"><rect x="24" y="42" width="830" height="14" rx="7"/></clipPath>
+  </defs>
+  <style>
+    .bg-l{fill:#0D0D0F} .txt-h{fill:#FFF} .txt-s{fill:#909096} .txt-l{fill:#EEE} .txt-ls{fill:#888}
+    @media(prefers-color-scheme:light){.bg-l{fill:#FAF8F5!important;stroke:#E8E4DE!important} .txt-h{fill:#111!important} .txt-s{fill:#6B6B6B!important} .txt-l{fill:#111!important} .txt-ls{fill:#6B6B6B!important}}
+    .sans{font-family:Inter,Roboto,-apple-system,sans-serif}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+  </style>
+  <rect width="880" height="110" rx="14" class="bg-l" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="24" y="27" font-size="11" font-weight="700" letter-spacing="0.6" class="sans txt-h">CODEBASE COMPOSITION</text>
+  <text x="856" y="27" font-size="10.5" font-weight="500" text-anchor="end" class="sans txt-s">51 JavaScript • 1 CSS • 3 Config • 54 Total Source Files</text>
+  <g clip-path="url(#barClip)">
+    <rect x="24" y="42" width="805.1" height="14" fill="#F7DF1E"/>
+    <rect x="829.1" y="42" width="19.9" height="14" fill="#1572B6"/>
+    <rect x="849" y="42" width="5.0" height="14" fill="#B30000"/>
+    <rect x="24" y="42" width="830" height="14" fill="url(#lsweep)"/>
+  </g>
+  <g transform="translate(24,84)">
+    <circle cx="6" cy="6" r="4.5" fill="#F7DF1E"/><text x="16" y="10" font-size="11.5" font-weight="600" class="sans txt-l">JavaScript</text><text x="82" y="10" font-size="10.5" class="sans txt-ls">97.0%</text>
+    <circle cx="260" cy="6" r="4.5" fill="#1572B6"/><text x="270" y="10" font-size="11.5" font-weight="600" class="sans txt-l">CSS</text><text x="298" y="10" font-size="10.5" class="sans txt-ls">2.4%</text>
+    <circle cx="440" cy="6" r="4.5" fill="#B30000"/><text x="450" y="10" font-size="11.5" font-weight="600" class="sans txt-l">JSON</text><text x="486" y="10" font-size="10.5" class="sans txt-ls">0.5%</text>
+  </g>
+</svg>

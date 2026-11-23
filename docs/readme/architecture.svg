@@ -1,0 +1,371 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="100%" height="100%" aria-labelledby="archTitle archDesc">
+  <title id="archTitle">Vardhman School Uniforms Application Architecture</title>
+  <desc id="archDesc">Layered architectural flowchart showing server layouts, client interactive components, hydration-safe context stores, data services, static assets, and reactive feedback loops.</desc>
+
+  <defs>
+    <!-- Arrow Marker Down -->
+    <marker id="arrowDown" viewBox="0 0 10 10" refX="5" refY="8" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 5 8 L 9 2 z" fill="#B30000" />
+    </marker>
+
+    <!-- Arrow Marker Side Branch -->
+    <marker id="arrowRight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 2 1 L 8 5 L 2 9 z" fill="#8F0000" />
+    </marker>
+
+    <!-- Arrow Marker Loop Return -->
+    <marker id="arrowLoop" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 8 1 L 2 5 L 8 9 z" fill="#B30000" />
+    </marker>
+
+    <!-- Packet Glow Filter -->
+    <filter id="packetGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Card Shadow Base -->
+    <filter id="cardElevation" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.04" />
+    </filter>
+
+    <!-- Motion Paths for animateMotion -->
+    <path id="mainDataPath" d="M 350,165 L 350,335 L 350,515 L 350,695 L 350,875" fill="none" stroke="none" />
+    <path id="loopDataPath" d="M 630,515 C 800,515 800,365 630,365" fill="none" stroke="none" />
+  </defs>
+
+  <style>
+    /* System font stack only */
+    .sans {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Staggered Entrance */
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .enter-1 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
+    .enter-2 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both; }
+    .enter-3 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.31s both; }
+    .enter-4 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both; }
+    .enter-5 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.57s both; }
+    .enter-side1 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both; }
+    .enter-side2 { animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both; }
+
+    /* Animated Dashed Connectors */
+    @keyframes flowDashes {
+      to {
+        stroke-dashoffset: -28;
+      }
+    }
+
+    .connector-line {
+      stroke: #B30000;
+      stroke-width: 1.8;
+      stroke-dasharray: 7 5;
+      animation: flowDashes 1.2s linear infinite;
+    }
+
+    .side-connector {
+      stroke: #8F0000;
+      stroke-width: 1.6;
+      stroke-dasharray: 6 4;
+      animation: flowDashes 1.5s linear infinite;
+    }
+
+    .loop-connector {
+      stroke: #B30000;
+      stroke-width: 1.8;
+      stroke-dasharray: 6 5;
+      animation: flowDashes 1.6s linear infinite;
+    }
+
+    /* Synchronized Card Glowing Sequence (8s Loop) */
+    @keyframes glowCard1 {
+      0%, 16% { stroke: #B30000; stroke-width: 2.2; }
+      22%, 100% { stroke: #E8E4DE; stroke-width: 1.2; }
+    }
+    @keyframes glowCard2 {
+      0%, 18% { stroke: #E8E4DE; stroke-width: 1.2; }
+      20%, 36% { stroke: #B30000; stroke-width: 2.2; }
+      42%, 100% { stroke: #E8E4DE; stroke-width: 1.2; }
+    }
+    @keyframes glowCard3 {
+      0%, 38% { stroke: #E8E4DE; stroke-width: 1.2; }
+      40%, 56% { stroke: #B30000; stroke-width: 2.2; }
+      62%, 100% { stroke: #E8E4DE; stroke-width: 1.2; }
+    }
+    @keyframes glowCard4 {
+      0%, 58% { stroke: #E8E4DE; stroke-width: 1.2; }
+      60%, 76% { stroke: #B30000; stroke-width: 2.2; }
+      82%, 100% { stroke: #E8E4DE; stroke-width: 1.2; }
+    }
+    @keyframes glowCard5 {
+      0%, 78% { stroke: #E8E4DE; stroke-width: 1.2; }
+      80%, 96% { stroke: #B30000; stroke-width: 2.2; }
+      100% { stroke: #E8E4DE; stroke-width: 1.2; }
+    }
+
+    .card-border-1 { animation: glowCard1 8s ease-in-out infinite; }
+    .card-border-2 { animation: glowCard2 8s ease-in-out infinite; }
+    .card-border-3 { animation: glowCard3 8s ease-in-out infinite; }
+    .card-border-4 { animation: glowCard4 8s ease-in-out infinite; }
+    .card-border-5 { animation: glowCard5 8s ease-in-out infinite; }
+
+    /* Subtle Icon Breathing */
+    @keyframes iconBreathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+
+    .icon-pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: iconBreathe 3.6s ease-in-out infinite;
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, .connector-line, .side-connector, .loop-connector,
+      .card-border-1, .card-border-2, .card-border-3, .card-border-4, .card-border-5,
+      .enter-1, .enter-2, .enter-3, .enter-4, .enter-5, .enter-side1, .enter-side2,
+      .icon-pulse {
+        animation: none !important;
+        stroke-dashoffset: 0 !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+
+  <!-- Container Panel: Warm Paper Canvas with Warm Line Border -->
+  <rect x="15" y="15" width="870" height="1070" rx="20" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1.5" />
+
+  <!-- Diagram Header -->
+  <g transform="translate(45, 52)">
+    <rect width="210" height="24" rx="12" fill="rgba(179,0,0,0.08)" stroke="rgba(179,0,0,0.25)" stroke-width="0.8" />
+    <circle cx="12" cy="12" r="3.5" fill="#15803D" />
+    <text x="22" y="15.5" font-size="9.5" font-weight="700" letter-spacing="1" fill="#B30000" class="sans">UNIDIRECTIONAL ARCHITECTURE</text>
+    
+    <text x="0" y="46" font-size="20" font-weight="800" fill="#111111" class="sans">Application Layer &amp; State Flowchart</text>
+    <text x="0" y="65" font-size="12" font-weight="500" fill="#6B6B6B" class="sans">Next.js 16 App Router • React 19 Server Components • useSyncExternalStore</text>
+  </g>
+
+  <!-- Divider Line -->
+  <line x1="45" y1="130" x2="855" y2="130" stroke="#E8E4DE" stroke-width="1" />
+
+  <!-- ==========================================
+       LAYER 1: SERVER COMPONENTS (app/)
+       ========================================== -->
+  <g class="enter-1" transform="translate(60, 150)">
+    <rect width="570" height="110" rx="14" fill="#FFFFFF" class="card-border-1" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <!-- Top Accent Bar -->
+    <rect x="0" y="0" width="570" height="4" rx="14" fill="#B30000" />
+    
+    <!-- Icon Glyph -->
+    <g transform="translate(20, 24)" class="icon-pulse">
+      <rect width="40" height="40" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+      <path d="M 12 18 L 28 18 M 12 24 L 24 24 M 12 30 L 20 30" stroke="#B30000" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Titles & Metadata -->
+    <text x="76" y="38" font-size="14.5" font-weight="700" fill="#111111" class="sans">1. Server Components &amp; Layouts</text>
+    <rect x="330" y="24" width="75" height="20" rx="6" fill="#F5F2ED" />
+    <text x="367" y="37.5" font-size="10.5" font-weight="600" text-anchor="middle" fill="#6B6B6B" class="sans">app/</text>
+    
+    <text x="76" y="58" font-size="11.5" font-weight="500" fill="#3D3D3D" class="sans">RootLayout, App Router pages, metadata declarations &amp; viewport theme tags</text>
+    <text x="76" y="76" font-size="10.5" font-weight="400" fill="#6B6B6B" class="sans">SSR pre-rendering, static HTML generation, zero client bundle weight for static views</text>
+    <text x="76" y="94" font-size="10" font-weight="600" fill="#15803D" class="sans">✓ Suspense boundaries protect async Header and dynamic drawers</text>
+  </g>
+
+  <!-- Connector: Layer 1 -> Layer 2 -->
+  <line x1="345" y1="260" x2="345" y2="310" class="connector-line" marker-end="url(#arrowDown)" />
+
+  <!-- ==========================================
+       LAYER 2: CLIENT INTERACTIVE BOUNDARIES (components/)
+       ========================================== -->
+  <g class="enter-2" transform="translate(60, 310)">
+    <rect width="570" height="110" rx="14" fill="#FFFFFF" class="card-border-2" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="570" height="4" rx="14" fill="#8F0000" />
+    
+    <!-- Icon Glyph -->
+    <g transform="translate(20, 24)" class="icon-pulse">
+      <rect width="40" height="40" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+      <rect x="14" y="15" width="12" height="10" rx="2" fill="none" stroke="#8F0000" stroke-width="1.8" />
+      <circle cx="20" cy="30" r="2.5" fill="#8F0000" />
+    </g>
+
+    <text x="76" y="38" font-size="14.5" font-weight="700" fill="#111111" class="sans">2. Client Interactive Components</text>
+    <rect x="340" y="24" width="105" height="20" rx="6" fill="#FDECEC" />
+    <text x="392" y="37.5" font-size="10.5" font-weight="600" text-anchor="middle" fill="#B30000" class="sans">components/</text>
+
+    <text x="76" y="58" font-size="11.5" font-weight="500" fill="#3D3D3D" class="sans">Strictly scoped "use client" islands at interactive DOM boundaries</text>
+    <text x="76" y="76" font-size="10.5" font-weight="400" fill="#6B6B6B" class="sans">HeroSlideshow (6s RTL), CategorySlider, ProductCard, BottomNav (fixed 44px)</text>
+    <text x="76" y="94" font-size="10" font-weight="600" fill="#8F0000" class="sans">⚡ Dispatches user actions (add-to-cart, wishlist toggle, profile updates)</text>
+  </g>
+
+  <!-- Side Connector: Layer 2 -> UI Primitives -->
+  <line x1="630" y1="365" x2="675" y2="365" class="side-connector" marker-end="url(#arrowRight)" />
+
+  <!-- Side Card: UI Primitives -->
+  <g class="enter-side1" transform="translate(680, 310)">
+    <rect width="165" height="110" rx="12" fill="#FFFFFF" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="165" height="3" rx="12" fill="#B30000" />
+    <text x="14" y="26" font-size="12" font-weight="700" fill="#111111" class="sans">UI Primitives</text>
+    <text x="14" y="42" font-size="9.5" font-weight="600" fill="#B30000" class="sans">components/ui/</text>
+    <text x="14" y="60" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• Badge &amp; Chips</text>
+    <text x="14" y="74" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• Toast Notification</text>
+    <text x="14" y="88" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• Tabs &amp; Steppers</text>
+    <text x="14" y="102" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• SearchBar &amp; Stepper</text>
+  </g>
+
+  <!-- Connector: Layer 2 -> Layer 3 -->
+  <line x1="345" y1="420" x2="345" y2="470" class="connector-line" marker-end="url(#arrowDown)" />
+
+  <!-- ==========================================
+       LAYER 3: HYDRATION-SAFE CONTEXT STORES (context/)
+       ========================================== -->
+  <g class="enter-3" transform="translate(60, 470)">
+    <rect width="570" height="110" rx="14" fill="#FFFFFF" class="card-border-3" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="570" height="4" rx="14" fill="#15803D" />
+    
+    <!-- Icon Glyph -->
+    <g transform="translate(20, 24)" class="icon-pulse">
+      <rect width="40" height="40" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+      <path d="M 20 14 C 15 14 14 18 14 20 C 14 26 20 29 20 29 C 20 29 26 26 26 20 C 26 18 25 14 20 14 Z" fill="none" stroke="#15803D" stroke-width="1.8" />
+    </g>
+
+    <text x="76" y="38" font-size="14.5" font-weight="700" fill="#111111" class="sans">3. Hydration-Safe Context Stores</text>
+    <rect x="330" y="24" width="85" height="20" rx="6" fill="#E8F5EC" />
+    <text x="372" y="37.5" font-size="10.5" font-weight="600" text-anchor="middle" fill="#15803D" class="sans">context/</text>
+
+    <text x="76" y="58" font-size="11.5" font-weight="500" fill="#3D3D3D" class="sans">CartContext • WishlistContext • ProfileProvider</text>
+    <text x="76" y="76" font-size="10.5" font-weight="400" fill="#6B6B6B" class="sans">Engineered with React 19's useSyncExternalStore with deterministic server snapshots</text>
+    <text x="76" y="94" font-size="10" font-weight="600" fill="#15803D" class="sans">🛡️ Zero hydration flash • Synchronous storage event subscriptions across tabs</text>
+  </g>
+
+  <!-- Side Curved Feedback Loop: Layer 3 -> Layer 2 -->
+  <path d="M 630,525 C 830,525 830,375 635,375" class="loop-connector" fill="none" marker-end="url(#arrowLoop)" />
+  <g transform="translate(680, 442)">
+    <rect width="150" height="22" rx="11" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+    <text x="75" y="14.5" font-size="9.5" font-weight="600" text-anchor="middle" fill="#B30000" class="sans">↻ State Update → UI Sync</text>
+  </g>
+
+  <!-- Connector: Layer 3 -> Layer 4 -->
+  <line x1="345" y1="580" x2="345" y2="630" class="connector-line" marker-end="url(#arrowDown)" />
+
+  <!-- ==========================================
+       LAYER 4: DATA & SERVICES LAYER (data/, services/)
+       ========================================== -->
+  <g class="enter-4" transform="translate(60, 630)">
+    <rect width="570" height="110" rx="14" fill="#FFFFFF" class="card-border-4" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="570" height="4" rx="14" fill="#B45309" />
+    
+    <!-- Icon Glyph -->
+    <g transform="translate(20, 24)" class="icon-pulse">
+      <rect width="40" height="40" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+      <ellipse cx="20" cy="18" rx="8" ry="3.5" fill="none" stroke="#B45309" stroke-width="1.8" />
+      <path d="M 12 18 v 8 c 0 2 3.5 3.5 8 3.5 s 8 -1.5 8 -3.5 v -8" fill="none" stroke="#B45309" stroke-width="1.8" />
+    </g>
+
+    <text x="76" y="38" font-size="14.5" font-weight="700" fill="#111111" class="sans">4. Data Registries &amp; Services</text>
+    <rect x="315" y="24" width="130" height="20" rx="6" fill="#FEF3C7" />
+    <text x="380" y="37.5" font-size="10.5" font-weight="600" text-anchor="middle" fill="#B45309" class="sans">data/ · services/</text>
+
+    <text x="76" y="58" font-size="11.5" font-weight="500" fill="#3D3D3D" class="sans">Catalog datasets (products, schools, categories, orders, hero slides)</text>
+    <text x="76" y="76" font-size="10.5" font-weight="400" fill="#6B6B6B" class="sans">Service abstraction modules (productService, schoolService, orderService, apiClient)</text>
+    <text x="76" y="94" font-size="10" font-weight="600" fill="#3D3D3D" class="sans">📦 Clean separation: UI components consume service facades without tight coupling</text>
+  </g>
+
+  <!-- Side Connector: Layer 4 -> Static Media -->
+  <line x1="630" y1="685" x2="675" y2="685" class="side-connector" marker-end="url(#arrowRight)" />
+
+  <!-- Side Card: Static Media -->
+  <g class="enter-side2" transform="translate(680, 630)">
+    <rect width="165" height="110" rx="12" fill="#FFFFFF" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="165" height="3" rx="12" fill="#B45309" />
+    <text x="14" y="26" font-size="12" font-weight="700" fill="#111111" class="sans">Static Media</text>
+    <text x="14" y="42" font-size="9.5" font-weight="600" fill="#B45309" class="sans">public/</text>
+    <text x="14" y="60" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• /brand/ logo (JPEG)</text>
+    <text x="14" y="74" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• /images/ products/</text>
+    <text x="14" y="88" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• /images/ schools/</text>
+    <text x="14" y="102" font-size="9.5" font-weight="400" fill="#6B6B6B" class="sans">• /images/ hero slides</text>
+  </g>
+
+  <!-- Connector: Layer 4 -> Layer 5 -->
+  <line x1="345" y1="740" x2="345" y2="790" class="connector-line" marker-end="url(#arrowDown)" />
+
+  <!-- ==========================================
+       LAYER 5: CORE UTILITIES & CONFIG (lib/)
+       ========================================== -->
+  <g class="enter-5" transform="translate(60, 790)">
+    <rect width="570" height="110" rx="14" fill="#FFFFFF" class="card-border-5" stroke="#E8E4DE" stroke-width="1.2" filter="url(#cardElevation)" />
+    <rect x="0" y="0" width="570" height="4" rx="14" fill="#111111" />
+    
+    <!-- Icon Glyph -->
+    <g transform="translate(20, 24)" class="icon-pulse">
+      <rect width="40" height="40" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+      <path d="M 15 25 L 20 20 L 25 25 M 20 20 L 20 30" stroke="#111111" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+
+    <text x="76" y="38" font-size="14.5" font-weight="700" fill="#111111" class="sans">5. Utilities, Configuration &amp; Styling Engine</text>
+    <rect x="420" y="24" width="75" height="20" rx="6" fill="#F5F2ED" />
+    <text x="457" y="37.5" font-size="10.5" font-weight="600" text-anchor="middle" fill="#111111" class="sans">lib/</text>
+
+    <text x="76" y="58" font-size="11.5" font-weight="500" fill="#3D3D3D" class="sans">lib/cn.js (classnames) • lib/format.js (formatPrice ₹) • lib/config.js (motion constants)</text>
+    <text x="76" y="76" font-size="10.5" font-weight="400" fill="#6B6B6B" class="sans">Tailwind CSS v4 engine (@theme in globals.css) • Google Fonts (Roboto &amp; Inter variable)</text>
+    <text x="76" y="94" font-size="10" font-weight="600" fill="#B30000" class="sans">⚙️ Single source of truth for motion intervals, theme tokens &amp; typography scale</text>
+  </g>
+
+  <!-- ==========================================
+       ANIMATED TRAVELING DATA PACKETS
+       ========================================== -->
+  <!-- Main Downward Flowing Data Packet -->
+  <circle r="5" fill="#B30000" filter="url(#packetGlow)">
+    <animateMotion dur="8s" repeatCount="indefinite">
+      <mpath href="#mainDataPath" />
+    </animateMotion>
+  </circle>
+
+  <!-- Secondary Feedback Dot -->
+  <circle r="4" fill="#E04040" filter="url(#packetGlow)">
+    <animateMotion dur="4s" repeatCount="indefinite">
+      <mpath href="#loopDataPath" />
+    </animateMotion>
+  </circle>
+
+  <!-- ==========================================
+       DIAGRAM FOOTER / LEGEND
+       ========================================== -->
+  <g transform="translate(60, 930)">
+    <rect width="780" height="85" rx="12" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1" />
+    
+    <!-- Legend Items -->
+    <g transform="translate(24, 22)">
+      <circle cx="6" cy="6" r="4.5" fill="#B30000" />
+      <text x="18" y="9.5" font-size="11" font-weight="700" fill="#111111" class="sans">Active Data Flow</text>
+      <line x1="120" y1="6" x2="165" y2="6" stroke="#B30000" stroke-width="1.8" stroke-dasharray="5 3" />
+
+      <circle cx="210" cy="6" r="4" fill="#E04040" />
+      <text x="222" y="9.5" font-size="11" font-weight="700" fill="#111111" class="sans">Reactive State Loop</text>
+      <line x1="355" y1="6" x2="400" y2="6" stroke="#E04040" stroke-width="1.8" stroke-dasharray="5 3" />
+
+      <rect x="440" y="-3" width="16" height="16" rx="4" fill="#E8F5EC" stroke="#15803D" stroke-width="1" />
+      <text x="466" y="9.5" font-size="11" font-weight="700" fill="#15803D" class="sans">useSyncExternalStore Safety</text>
+    </g>
+
+    <text x="24" y="55" font-size="10.5" font-weight="500" fill="#6B6B6B" class="sans">Tokens: --color-paper: #FAF8F5 · --color-surface: #FFFFFF · --color-brand: #B30000 · --color-ink: #111111</text>
+    <text x="24" y="70" font-size="10" font-weight="400" fill="#909096" class="sans">All layers strictly maintain pure JavaScript ES2024 standards with zero TypeScript build overhead.</text>
+  </g>
+</svg>

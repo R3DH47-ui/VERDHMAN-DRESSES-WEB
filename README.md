@@ -1,405 +1,253 @@
-# Vardhman School Uniforms — Design System & Engineering Guide
+# Vardhman School Uniforms
 
-> **Last updated**: November 19, 2026  
-> **Status**: Living Documentation  
-> **Target Audience**: Human engineers on day one & AI coding agents prior to making codebase modifications.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/readme/banner-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="docs/readme/banner-light.svg" />
+    <img src="docs/readme/banner.svg" alt="Vardhman School Uniforms — Since 1979" width="100%" />
+  </picture>
+</p>
 
----
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=18&duration=3000&pause=1200&color=B30000&center=true&vCenter=true&width=620&lines=Official+School+Uniforms%2C+Delivered+to+Your+Doorstep;Mobile-First+E-Commerce+Storefront+Since+1979;Browse+by+School%2C+Board%2C+Grade+%26+House+Colour;Built+with+Next.js+16+%26+React+19+Server+Components" alt="Typing SVG" />
+  </a>
+</p>
 
-## 1. System Overview & Tech Stack
+<p align="center">
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.4.6-8F0000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 16.4.6" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.3.0-B30000?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 19.3.0" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4.3.3-111111?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4" alt="Tailwind CSS 4.3.3" /></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-ES2024-8F0000?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="JavaScript" /></a>
+  <a href="https://lucide.dev/"><img src="https://img.shields.io/badge/Lucide-Icons-B30000?style=for-the-badge" alt="Lucide Icons" /></a>
+  <img src="https://img.shields.io/badge/Status-Active_Development-15803D?style=for-the-badge" alt="Active Development" />
+</p>
 
-Vardhman School Uniforms (Est. 1979) is a multi-school e-commerce storefront delivering authorized uniforms across North India. The interface follows a warm, tactile design language inspired by premier institutional tailoring.
-
-- **Framework**: Next.js 16.4.6 (App Router, Webpack builder, Partial Prerendering enabled)
-- **Runtime**: React 19.3.0 (`react`, `react-dom`)
-- **Styling**: Tailwind CSS v4.3.3 via `@tailwindcss/postcss` and `@theme` block in `app/globals.css`
-- **Iconography**: `lucide-react` v0.468.0
-- **Package Manager**: `npm`
-- **Component Strategy**: Server Components by default; `"use client"` only for interactive carousels, reactive stores, filters, and modal sheets.
-
----
-
-## 2. Design Tokens
-
-Defined in `app/globals.css` inside the Tailwind v4 `@theme` directive:
-
-```css
-/* app/globals.css */
-@theme {
-  --color-paper: #FAF8F5;
-  --color-surface: #FFFFFF;
-  --color-tile: #F5F2ED;
-  --color-line: #E8E4DE;
-  --color-line-strong: #D6D0C7;
-  --color-ink: #111111;
-  --color-body: #3D3D3D;
-  --color-muted: #6B6B6B;
-  --color-brand: #B30000;
-  --color-brand-dark: #8F0000;
-  --color-brand-tint: #FDECEC;
-  --color-brand-line: #F2C6C6;
-  --color-success: #15803D;
-  --color-success-tint: #E8F5EC;
-  --color-warning: #B45309;
-  --color-warning-tint: #FEF3C7;
-}
-```
-
-### 2.1 Color Tokens
-
-| Token Name | Hex Value | Semantic Purpose |
-| :--- | :--- | :--- |
-| `--color-paper` | `#FAF8F5` | Warm off-white global canvas background. |
-| `--color-surface` | `#FFFFFF` | Crisp white container cards, header background, modal bodies. |
-| `--color-tile` | `#F5F2ED` | Soft beige background for garment image frames and chip buttons. |
-| `--color-line` | `#E8E4DE` | Delicate dividers, card borders, and list separators. |
-| `--color-line-strong` | `#D6D0C7` | Hover-state borders, active outlines, and distinct dividers. |
-| `--color-ink` | `#111111` | Primary headings, product titles, dark pill action buttons. |
-| `--color-body` | `#3D3D3D` | Readable charcoal body copy and metadata text. |
-| `--color-muted` | `#6B6B6B` | Secondary captions, struck-through MRPs, school board labels. |
-| `--color-brand` | `#B30000` | Signature Vardhman Crimson Red for primary CTAs, notifications, and key badges. |
-| `--color-brand-dark` | `#8F0000` | Pressed/active state for crimson primary buttons. |
-| `--color-brand-tint` | `#FDECEC` | Light pink-red background for brand badges and user avatar rings. |
-| `--color-brand-line` | `#F2C6C6` | Accent stroke around brand-tinted pills. |
-| `--color-success` | `#15803D` | Positive indicators: total savings pill, "FREE" delivery, order delivered status. |
-| `--color-success-tint` | `#E8F5EC` | Background fill for positive savings badges. |
-| `--color-warning` | `#B45309` | Status amber for "Packed" or pending updates. |
-| `--color-warning-tint` | `#FEF3C7` | Background fill for pending warnings. |
-
-#### Design Debt / Hardcoded Hex Audit
-- `app/globals.css`: Focus ring hardcoded as `outline: 2px solid #B30000;` (bypasses `--color-brand`).
-- `app/layout.js`: Viewport theme color declared as `#FAF8F5`.
-- `data/schools.js`: Uniform palette swatches use raw hex arrays (`#1B3A5C`, `#8B0000`, `#6B6B6B`) to represent specific school institutional regulation fabric dyes.
-
-### 2.2 Corner Radii Tokens
-
-| Token Name | Value | Applied To |
-| :--- | :--- | :--- |
-| `--radius-card` | `12px` | Content cards, product cards, dialog modals, toast banners. |
-| `--radius-btn` | `6px` | Action buttons, form input fields, size selector squares. |
-| `--radius-pill` | `9999px` | Floating header card, category chips, stage tabs, status badges. |
-
-### 2.3 Shadow Tokens
-
-| Token Name | Value | Applied To |
-| :--- | :--- | :--- |
-| `--shadow-soft` | `0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)` | Standard elevated cards, trust badge containers. |
-| `--shadow-card` | `0 4px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)` | Floating header, hover-lifted cards, modal dialogs. |
-
-### 2.4 Z-Index Hierarchy
-
-| Layer | Value | Component / Element |
-| :--- | :--- | :--- |
-| Base | `z-0` | Background slideshow image track (`HeroSlideshow.js`). |
-| Overlay | `z-20` | Hero dark gradient vignette (`from-black/85 via-black/60 to-black/40`). |
-| Content | `z-30` | Hero copy, CTAs, slide pagination dots, manual chevron arrows. |
-| Navigation | `z-50` | Sticky floating `<Header />` and mobile fixed `<BottomNav />`. |
-| Modals | `z-50` / `z-[100]` | Edit Profile `<ProfileModal />` and drawer flyouts. |
-| Toasts | `z-[200]` | Bottom-floating `<Toast />` notification banner. |
-
-### 2.5 Motion & Timing Standards
-
-Centralized in `lib/config.ts`:
-
-```typescript
-/* lib/config.ts */
-export const HERO_INTERVAL_MS = 6000;      // 6s auto-slide rotation
-export const SLIDER_INTERVAL_MS = 6000;    // 6s category slider advance
-export const SLIDE_DURATION_MS = 700;      // 700ms smooth cubic ease
-export const SLIDE_DIRECTION = "rtl";      // RTL slide translate
-export const SEED_DEMO_CART = true;        // Pre-fill demo cart items
-```
+<p align="center">
+  <a href="#-overview">Overview</a> · <a href="#-tech-stack--languages">Tech Stack</a> · <a href="#-architecture">Architecture</a> · <a href="#-design-system--tokens">Design System</a> · <a href="#-project-structure">Structure</a> · <a href="#-getting-started">Getting Started</a> · <a href="#-code-quality">Code Quality</a>
+</p>
 
 ---
 
-## 3. Typography System
+## 📌 Overview
 
-### 3.1 Font Families & Loading
+**Vardhman School Uniforms & Dresses** (Est. 1979) is a mobile-first e-commerce storefront that lets students and parents browse certified institutional uniforms, filter by school and board affiliation, and shop a curated catalog of regulation garments and accessories.
 
-Typography uses a clean, Flipkart-inspired sans-serif stack based on Google Font **Roboto** with an **Inter** fallback loaded via `next/font/google`:
+The application renders static catalog pages as React Server Components for fast initial loads, and scopes client-side interactivity to precise boundaries — carousels, drawers, filters, and reactive shopping state — to minimise the JavaScript bundle shipped to the browser.
 
-```javascript
-/* app/layout.js */
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
+### Highlights
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-});
-```
-
-All serif fonts (`Source_Serif_4`, `Playfair`) have been completely removed. Both `--font-sans` and fallback `--font-serif` resolve to `var(--font-roboto), var(--font-inter), Roboto, sans-serif`.
-
-### 3.2 Type Scale
-
-| Scale Role | Font Size | Weight | Tracking / Leading | Example Usage |
-| :--- | :--- | :--- | :--- | :--- |
-| **Hero H1 (Line 1)** | `clamp(1.75rem, 4.2vw, 3.25rem)` | 700 (Bold) | `tracking-tight`, line-height 1.12 | "Official School Uniforms," |
-| **Hero H1 (Line 2)** | `clamp(1.75rem, 4.2vw, 3.25rem)` | 400 (Italic) | `italic`, line-height 1.12 | "Delivered to Your Doorstep." |
-| **Section H2** | `1.25rem` – `1.5rem` (20–24px) | 700 (Bold) | `tracking-tight`, line-height 1.25 | "Complete Uniforms Catalog" |
-| **Card H3** | `0.875rem` – `1rem` (14–16px) | 500 / 600 | Leading snug, line-clamp 1 | Product & Category titles |
-| **Body** | `0.8125rem` (13px) | 400 (Regular) | Line-height `1.25rem` (20px) | Descriptions, specifications |
-| **Micro Eyebrow** | `0.625rem` (10px) | 700 (Bold) | `tracking-widest`, uppercase | "TRUSTED BY 40+ PREMIER INSTITUTIONS" |
-| **Button CTA** | `0.75rem` (12px) | 700 (Bold) | `tracking-wider`, uppercase | "SHOP COLLECTION", "ADD TO CART" |
-| **Price Figure** | `0.875rem` – `1.25rem` | 700 (Bold) | Tabular lining nums | `₹1,650` |
-
-### 3.3 Numeral Rules & Currency (₹)
-
-All prices, order IDs, quantities, and dates use tabular lining figures via `.font-tabular` and `.tabular-nums`:
-
-```css
-/* app/globals.css */
-.font-tabular,
-.tabular-nums {
-  font-variant-numeric: tabular-nums lining-nums;
-  -moz-font-feature-settings: "tnum" 1, "lnum" 1;
-  -webkit-font-feature-settings: "tnum" 1, "lnum" 1;
-  font-feature-settings: "tnum" 1, "lnum" 1;
-}
-```
-
-- **Currency formatting**: Managed exclusively through `formatPrice()` in `lib/format.js`:
-  ```javascript
-  /* lib/format.js */
-  export function formatPrice(amount) {
-    if (amount == null || isNaN(amount)) return "₹0";
-    return `₹${Math.round(amount).toLocaleString("en-IN")}`;
-  }
-  ```
-- **Rupee Glyph (`₹`)**: Renders natively in `Roboto` Latin glyph coverage with zero fallback jitter.
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🏫 School-Centric Navigation</h4>
+      <p>Browse uniforms filtered by institution, board (CBSE, ICSE, State), grade tier, and house colour. Each school card surfaces its regulation palette and emblem.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h4>📱 Mobile-First Interface</h4>
+      <p>Fixed bottom navigation bar, horizontal snap scrollers, bottom-sheet drawers, and responsive grids that prioritise single-handed handheld usage.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h4>🛡️ Flicker-Free Client State</h4>
+      <p>Cart, wishlist, and profile state powered by <code>useSyncExternalStore</code> with server-safe fallback snapshots — zero hydration mismatch, zero flash of empty UI.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h4>♿ Accessible &amp; Touch-Ready</h4>
+      <p>Minimum 44 px touch targets, semantic ARIA roles, keyboard-navigable drawers, crimson focus rings, and <code>prefers-reduced-motion</code> compliance on carousels.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 4. Layout Architecture & Responsive Breakpoints
+## 🛠️ Tech Stack &amp; Languages
 
-### 4.1 Page Container & Spacing
+Built on modern JavaScript (ES2024) with zero TypeScript compilation overhead. The production build uses Webpack via `next build --webpack`; the dev server uses Turbopack for instant CSS reloads.
 
-- **Standard Page Container**: `mx-auto w-full max-w-[1280px] px-4 md:px-6 lg:px-10 py-6 md:py-10`
-- **Checkout Container**: `mx-auto w-full max-w-[1000px] px-4 md:px-6 lg:px-10 py-6 md:py-10`
-- **Bottom Navigation Padding**: `main` tag has `pb-20 md:pb-0` to clear mobile bottom navigation.
+<p align="center">
+  <img src="docs/readme/tech-stack.svg" alt="Technology Stack" width="100%" />
+</p>
 
-### 4.2 Grid Structure Across Pages
+<p align="center">
+  <img src="docs/readme/languages.svg" alt="Codebase Language Composition" width="100%" />
+</p>
 
-| Route | Mobile (<640px) | Tablet (640–1023px) | Desktop (≥1024px) |
+### Dependencies &amp; Versions
+
+| Layer | Technology | Version | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Home (`/`)** | 1 col stack, horizontal snap scrollers | 1 col stack, 3-card scrollers | 3 cols recommended, 4 cols categories |
-| **Shop (`/shop`)** | 2 columns (`grid-cols-2`) | 3 columns (`md:grid-cols-3`) | 4 columns (`lg:grid-cols-4`, 5 full rows) |
-| **Cart (`/cart`)** | 1 column stacked | 1 column stacked | 2/3 items (`col-span-2`), 1/3 sticky price card |
-| **Account (`/account`)** | 1 column stacked | 1 column stacked | 1/3 profile card, 2/3 settings groups |
-| **Orders (`/orders`)** | 1 column stacked | 2 columns (`md:grid-cols-2`) | 2 columns (`md:grid-cols-2`) |
-| **Schools (`/schools`)**| 1 column stacked | 2 columns (`md:grid-cols-2`) | 3 columns (`lg:grid-cols-3`) |
+| **Framework** | [Next.js](https://nextjs.org/) | `16.4.6` | App Router, React Server Components, Partial Prefetching |
+| **UI Runtime** | [React](https://react.dev/) | `19.3.0` | Concurrent rendering, `useSyncExternalStore`, Suspense |
+| **DOM Bindings** | `react-dom` | `19.3.0` | Server and client DOM reconciliation |
+| **Styling Engine** | [Tailwind CSS](https://tailwindcss.com/) | `4.3.3` | CSS `@theme` variables, zero-runtime utility classes |
+| **Build CSS** | `@tailwindcss/postcss` | `^4.3.5` | PostCSS plugin for production CSS compilation |
+| **Dev CSS** | `@tailwindcss/turbopack` | `4.3.3` | Turbopack loader for instant dev-mode CSS |
+| **Iconography** | [Lucide React](https://lucide.dev/) | `^0.468.0` | Tree-shakeable SVG icon components |
+| **Linter** | [ESLint](https://eslint.org/) | `^9` | Flat config with `eslint-config-next` Core Web Vitals |
+| **Lint Preset** | `eslint-config-next` | `16.4.6` | Next.js-specific lint rules and accessibility checks |
+| **Fonts** | Roboto + Inter | `next/font/google` | Variable-loaded with `font-display: swap` |
+| **Path Aliases** | `jsconfig.json` | — | `@/*` resolves to `./*` for clean imports |
 
-### 4.3 Navigation Layout
+### npm Scripts
 
-- **Header (`components/layout/Header.js`)**:
-  - Sticky floating pill card: `sticky top-0 z-50 px-3 pt-3 pb-2 md:px-6 md:pt-4 md:pb-3`
-  - Pill container: `border border-brand rounded-pill px-4 py-2 md:px-6 md:py-2.5 bg-surface shadow-soft`
-  - Logo on left, desktop nav links center (`Home`, `Shop`, `Schools`, `Orders`, `Cart`, `Account`), icons right (Search, Notification, reactive Profile Avatar circle, Mobile hamburger).
-- **Mobile Bottom Bar (`components/layout/BottomNav.js`)**:
-  - Fixed bottom bar on viewports `< 768px`: `md:hidden fixed bottom-0 left-0 right-0 z-50 h-14 bg-surface border-t border-line`
-  - 7 icons: `Home`, `Shop`, `Schools`, `Orders`, `Cart` (with badge), `Account`, `Menu`.
-
----
-
-## 5. Components Directory & API Reference
-
-### 5.1 Shared Layout Components
-
-#### `BrandLogo` (`components/layout/BrandLogo.js`)
-Displays official red "VSU" lettering with "VARDHMAN" horizontal banner, "SINCE 1979", and "VARDHMAN SCHOOL UNIFORMS" from `/public/brand/vardhman-logo.jpeg`.
-
-```javascript
-/* components/layout/BrandLogo.js */
-export default function BrandLogo() {
-  return (
-    <Link href="/" className="flex items-center gap-2 md:gap-2.5 shrink-0 group">
-      <div className="relative h-[40px] md:h-[48px] w-auto aspect-[880/593] flex items-center shrink-0">
-        <Image
-          src="/brand/vardhman-logo.jpeg"
-          alt="Vardhman School Uniforms - since 1979"
-          width={880}
-          height={593}
-          priority
-          className="h-full w-auto object-contain mix-blend-multiply"
-        />
-      </div>
-      {SHOW_HEADER_WORDMARK && (/* Wordmark block */)}
-    </Link>
-  );
-}
-```
-- **Sizing**: `h-[40px]` mobile / `h-[48px]` desktop; aspect ratio `880/593` (1.48:1).
-- **Near-white background blend**: Uses CSS `mix-blend-multiply` so the JPEG background blends into the white header card.
-- **Wordmark toggle**: Controlled by `const SHOW_HEADER_WORDMARK = true;`.
-
-#### `Footer` (`components/layout/Footer.js`)
-Desktop 3-column footer containing Brand Heritage, Quick Links, and Toll-Free Helpline (`1800-200-1979`).
-- **PPR / SSR Safety**: Evaluates year using `useSyncExternalStore` (`getServerYear = () => 2026`) to avoid hydration mismatch during static prerendering.
-
-### 5.2 Home Components
-
-#### `HeroSlideshow` (`components/home/HeroSlideshow.js`)
-Dynamic RTL carousel auto-advancing every 6s (`HERO_INTERVAL_MS = 6000`).
-- **Motion**: Content translates right-to-left: `transform: translateX(-${currentSlide * 100}%)` with duration 700ms (`SLIDE_DURATION_MS`).
-- **Accessibility**: Pauses on mouse enter (`onMouseEnter`), keyboard focus (`onFocusCapture`), and hidden tab (`visibilitychange`). Autoplay disabled when `prefers-reduced-motion` is active.
-- **Manual Navigation**: Accessible previous/next chevrons and swipe gesture detection.
-
-#### `HeroContent` (`components/home/HeroContent.js`)
-Single dedicated copy overlay rendered at `z-30`:
-- **Eyebrow**: `"TRUSTED BY 40+ PREMIER EDUCATIONAL INSTITUTIONS"` with pulsing crimson dot.
-- **Headline**: Line 1 `"Official School Uniforms,"` bold upright; Line 2 `"Delivered to Your Doorstep."` normal italic.
-- **Subline**: Outlined red `Truck` icon (18px) + `"Doorstep fit guarantee & hassle-free exchange"`.
-- **Responsive CTA**: On desktop, inline buttons; on mobile (`< 768px`), centered equal-width row (`[&>*]:flex-1`).
-- **Pagination Dots**: 5 total dots; active dot = elongated white pill (`w-8 bg-white/90`), inactive = `w-2.5 bg-white/40`.
-
-#### `CategorySlider` (`components/home/CategorySlider.js`)
-Showcases all 6 categories (Shirts, Trousers, Skirts, Blazers, Sweaters, Accessories).
-- Dynamic minimum price badge: `getCategoryMinPrice(category.id)` derived from live catalog.
-- Auto-advances RTL every 6000ms.
-- Card width: ~1.2 cards visible on mobile portrait (`w-[82%]`), 2 on tablet, 4 on desktop.
-- Card link: Routes directly to `/shop?category=${category.id}` preselecting the filter.
-
-### 5.3 Product & Profile Components
-
-#### `ProductCard` (`components/product/ProductCard.js`)
-Standardized e-commerce garment tile used in Shop, Wishlist, and School detail.
-- Soft beige photo container (`bg-tile border border-line aspect-square`).
-- School badge (crimson for brand schools, black for convent / in-set).
-- Wishlist heart button top-right.
-- Product name, class range, star rating (`★ 4.8`), tabular price & struck MRP.
-- Black action pill button with `ShoppingCart` icon: `ADD TO CART`.
-
-#### `ProfileModal` (`components/profile/ProfileModal.js`)
-Accessible profile management dialog (centered modal on desktop, bottom-sheet on mobile):
-- Fields: Full Name (required), Phone Number (10 digits), Email (regex validated), Linked Schools (interactive multi-select checkboxes from `data/schools.js`).
-- Keyboard control: Closes on `Escape`, traps body scroll when mounted.
-- Reactive event: Dispatches `"vardhman-toast"` on save and updates `ProfileContext`.
-
-### 5.4 UI Primitives (`components/ui/`)
-
-- `Badge.js`: Status pills with variants: `brand`, `success`, `warning`, `dark`, `neutral`, `school`, `inSet`.
-- `Chips.js`: Horizontal filter chips with black active pill and beige inactive pills.
-- `OrderStepper.js`: Delivery timeline tracking nodes (`Placed` -> `Packed` -> `Shipped` -> `Delivered`).
-- `ProductImage.js`: Safe Next.js image wrapper with placeholder fallback.
-- `QtyStepper.js`: Compact `[-] qty [+]` numeric stepper.
-- `SearchBar.js`: Rounded input with search icon and clear (`X`) button.
-- `SectionHeader.js`: Section heading with subtitle and crimson `VIEW ALL` link.
-- `Tabs.js`: Rounded pill navigation tabs with active dark state.
-- `Toast.js`: Bottom-floating feedback notification responding to custom event `vardhman-toast`.
+| Script | Command | Description |
+| :--- | :--- | :--- |
+| `npm run dev` | `next dev` | Start dev server with Turbopack |
+| `npm run build` | `next build --webpack` | Production build via Webpack |
+| `npm start` | `next start` | Serve the production build |
+| `npm run lint` | `eslint` | Run ESLint across all source files |
 
 ---
 
-## 6. Data Architecture & Client State Management
+## 🏛️ Architecture
 
-### 6.1 State Management
+The application follows a strict layered architecture where data flows top-down from server-rendered pages into interactive client components, through hydration-safe context providers, and down to static data sources.
 
-```
-┌────────────────────────────────────────────────────────┐
-│                      RootLayout                        │
-│ ┌────────────────────────────────────────────────────┐ │
-│ │                  CartProvider                      │ │
-│ │ ┌────────────────────────────────────────────────┐ │ │
-│ │ │               WishlistProvider                 │ │ │
-│ │ │ ┌────────────────────────────────────────────┐ │ │ │
-│ │ │ │              ProfileProvider               │ │ │ │
-│ │ │ │                                            │ │ │ │
-│ │ │ │  Header  ·  Main Pages  ·  BottomNav       │ │ │ │
-│ │ │ └────────────────────────────────────────────┘ │ │ │
-│ │ └────────────────────────────────────────────────┘ │ │
-│ └────────────────────────────────────────────────────┘ │
-└────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="docs/readme/architecture.svg" alt="Architecture Flow Diagram" width="100%" />
+</p>
 
-#### `ProfileContext` (`context/ProfileContext.js`)
-Uses `useSyncExternalStore` for zero-cascade, instant synchronization between Account greeting, Header avatar circle, and Home greeting:
-- **Storage Key**: `vardhman_profile_data_v1`
-- **Reactivity**: Subscribes to window `storage` and `vardhman-profile-update` events.
-- **Computed fields**: `initial` automatically derived from first letter of updated name.
+### Architectural Principles
 
-#### `CartContext` (`context/CartContext.js`)
-- **Storage Key**: `vardhman-cart`
-- **Demo Seeding**: When storage is empty and `SEED_DEMO_CART === true`, automatically hydrates with 4 pre-configured items from `data/cart.js`.
-- **Calculations**: Auto-computes `subtotal`, `totalMrp`, `savings`, and `totalItems`.
-
-#### `WishlistContext` (`context/WishlistContext.js`)
-- **Storage Key**: `vardhman-wishlist`
-- Provides `toggleWishlist(product)` and `isWishlisted(productId)`.
-
-### 6.2 Data Sources (`data/`)
-
-- `products.js`: Exact 20-product catalog (5 shirts, 4 trousers, 3 skirts, 2 blazers, 2 sweaters, 4 accessories).
-- `cart.js`: 4 demo items:
-  1. Pleated Heavy Trousers (St. Mary's Convent, Size 32, ₹470)
-  2. Regular Fit Trousers (Kundan Vidya Mandir, Size 30, ₹620)
-  3. School House Track Pants (Universal Standard, Size 30, ₹490)
-  4. Full-Sleeve Oxford Cotton Shirt (Greenfield Public, Size 30, ₹430)
-- `heroContent.ts`: Master copy for hero eyebrow, headline, subline, and CTA destinations.
-- `heroSlides.js`: 5 photographic slide sources with descriptive accessibility labels.
-- `schools.js`: 9 partner schools with boards, locations, monogram badges, and uniform color swatches.
-- `orders.js`: Mock orders (`#VU-24617`, `#VU-24602`, `#VU-24311`) across ongoing and delivered statuses.
-- `user.js`: Default fallback profile for Rohan Sharma.
+- **Server Components by default.** Pages, layouts, and static catalog listings render on the server. Client JavaScript is shipped only where interactivity is required.
+- **Explicit client boundaries.** The `"use client"` directive is scoped narrowly to carousels, reactive stores, filters, and modal drawers — never applied to entire pages.
+- **Hydration safety through `useSyncExternalStore`.** All persistent client state (cart, wishlist, profile) uses React 19's `useSyncExternalStore` with deterministic server snapshots, eliminating SSR/client mismatches.
+- **Stateless data layer.** Catalog data, school registries, and hero content are plain JavaScript modules with no runtime fetching, keeping the initial render path dependency-free.
 
 ---
 
-## 7. Photographic Assets & Media Rules
+## 🎨 Design System &amp; Tokens
 
-All assets are stored locally under `/public` without third-party CDN hotlinking:
+All visual styling is defined as CSS custom properties inside the Tailwind v4 `@theme` block in `app/globals.css`. The design language combines a warm paper texture with high-contrast typography and a signature crimson accent.
 
-```
-public/
-├── brand/
-│   └── vardhman-logo.jpeg       # Official VSU logo (880x593)
-├── images/
-│   ├── categories/              # 6 category tiles (cat-*.jpg)
-│   ├── hero/                    # 5 hero background slides (hero-*.jpg)
-│   ├── products/                # 20 real uniform garment photos
-│   └── schools/                 # Partner school monograms & crests
-```
+<p align="center">
+  <img src="docs/readme/palette.svg" alt="Colour Token Palette" width="100%" />
+</p>
 
-### Photo Accuracy Rule
-- Every product photo shows the exact garment, regulation cut, and color named in the product description.
-- Backgrounds use clean neutral soft-beige tiles (`bg-tile border border-line`).
-- Full photo source URLs and Unsplash licenses are cataloged in `docs/IMAGE_CREDITS.md`.
-- Flag `NEEDS_FIGMA_EXPORT`: Slide 1 background (`hero-courtyard-blazers.jpg`) is a temporary licensed high-res placeholder awaiting the original raw export from Figma.
+### Typography
+
+| Role | Family | Weight | Size | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Headlines (`.type-h1`) | Roboto → Inter | 700 | `clamp(1.75rem, 4vw, 2.75rem)` | Tight tracking, `line-height: 1.15` |
+| Section Titles (`.type-h2`) | Roboto → Inter | 700 | `clamp(1.25rem, 2.5vw, 1.625rem)` | `line-height: 1.25` |
+| Card Titles (`.type-h3`) | Roboto → Inter | 500 | `1rem` | `line-height: 1.35` |
+| Body (`.type-body`) | Roboto → Inter | 400 | `0.8125rem (13px)` | `line-height: 1.25rem` |
+| Eyebrow (`.type-eyebrow`) | Roboto → Inter | 500 | `0.625rem (10px)` | Uppercase, wide tracking |
+| Price (`.type-price`) | Roboto → Inter | 700 | Contextual | Tabular lining numerals |
+
+### Spacing, Radii &amp; Shadows
+
+| Token | Value | Usage |
+| :--- | :--- | :--- |
+| `--radius-card` | `12px` | Content cards, dialogs, product tiles |
+| `--radius-btn` | `6px` | Buttons, inputs, size selectors |
+| `--radius-pill` | `9999px` | Header pill, chips, status badges |
+| `--shadow-soft` | `0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)` | Standard card elevation |
+| `--shadow-card` | `0 4px 14px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04)` | Floating header, hover-lifted cards |
+
+### Motion Timing
+
+| Constant | Value | Context |
+| :--- | :--- | :--- |
+| `HERO_INTERVAL_MS` | `6000` | Hero slideshow auto-advance interval |
+| `SLIDER_INTERVAL_MS` | `6000` | Category slider auto-advance interval |
+| `SLIDE_DURATION_MS` | `700` | Slide transition duration (cubic ease) |
+| `SLIDE_DIRECTION` | `"rtl"` | Right-to-left carousel translate direction |
+
+### Touch &amp; Layout
+
+- **Minimum touch target**: 44 px across all interactive elements.
+- **Page container**: `max-w-[1280px]` with responsive horizontal padding (`px-4` / `md:px-6` / `lg:px-10`).
+- **Bottom nav clearance**: `pb-20 md:pb-0` on `<main>` to clear the fixed mobile navigation bar.
+- **Dark mode defence**: `color-scheme: only light` enforced on `<html>`, `<body>`, and viewport meta to prevent browser auto-dark inversion.
+
+### UI Primitives (`components/ui/`)
+
+`Badge` · `Chips` · `OrderStepper` · `ProductImage` · `QtyStepper` · `SearchBar` · `SectionHeader` · `Tabs` · `Toast`
 
 ---
 
-## 8. Critical Engineering Constraints & Gotchas
+## 📁 Project Structure
 
-### 8.1 Next.js 16 Partial Prerendering & Date Evaluation
-Next.js 16 prerendering engine crashes if `new Date()` is evaluated during SSR.
-- **Rule**: Never call `new Date().getFullYear()` directly in a Server Component or SSR body.
-- **Solution**: Use `useSyncExternalStore` with a static server snapshot (`() => 2026`) as implemented in `components/layout/Footer.js`.
+```
+VARDHMAN-SCHOOL-UNIFORMS/
+├── app/                        # Next.js App Router: layouts, pages, global CSS
+├── components/
+│   ├── home/                   # Homepage: hero slideshow, category slider, sections
+│   ├── layout/                 # Header, BottomNav, Footer, BrandLogo
+│   ├── product/                # Product cards, filters, size selectors
+│   ├── profile/                # Account management, profile modal
+│   └── ui/                     # Design system primitives (Badge, Toast, Tabs…)
+├── context/                    # React context providers (Cart, Wishlist, Profile)
+├── data/                       # Static catalog: products, schools, categories, orders
+├── lib/                        # Utilities: class merger (cn), formatters, global config
+├── public/
+│   ├── brand/                  # Official VSU brand logo
+│   └── images/                 # Product photos, hero slides, school crests, categories
+├── services/                   # Service layer abstractions and data fetchers
+├── docs/                       # Documentation and README assets
+├── next.config.mjs             # Next.js configuration (Turbopack, Partial Prefetching)
+├── postcss.config.mjs          # PostCSS with @tailwindcss/postcss
+├── eslint.config.mjs           # ESLint flat config with Core Web Vitals
+├── jsconfig.json               # Path alias: @/* → ./*
+└── package.json                # Dependencies and npm scripts
+```
 
-### 8.2 React 19 `set-state-in-effect` Rule
-React 19 ESLint flags synchronous `setState` calls inside `useEffect` bodies as cascading render errors.
-- **Rule**: Never synchronize external storage or props via synchronous `setState` in `useEffect`.
-- **Solution**: Use `useSyncExternalStore` (as in `ProfileContext.js`) or derive state directly during rendering.
+---
 
-### 8.3 Dark Reader & Auto-Inversion Defense
-To prevent dark mode extensions (Dark Reader, Chrome auto-dark) from inverting the brand's warm off-white canvas:
-1. `app/layout.js`: Declares `colorScheme: "only light"` in viewport and `style={{ colorScheme: "only light" }}` on `<html>`.
-2. `app/globals.css`:
-   ```css
-   @custom-variant dark (&:where(.dark, .dark *));
-   html { color-scheme: only light !important; background-color: var(--color-paper) !important; }
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **[Node.js](https://nodejs.org/)** `v18.18+` (Node `v20+` LTS recommended)
+- **npm** (bundled with Node.js)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/R3DH47-ui/VERDHMAN-DRESSES-WEB.git
+   cd VERDHMAN-DRESSES-WEB
    ```
 
-### 8.4 Single Hero Architecture Rule
-The Hero section consists of exactly **two distinct layers**:
-1. **Background Layer (`HeroSlideshow.js`)**: Contains only the image track and dark gradient overlay (`z-0` through `z-20`).
-2. **Content Layer (`HeroContent.js`)**: Contains the eyebrow pill, headline, subline, CTAs, and pagination dots (`z-30`).
-- **Never** render hero copy inside individual slide track containers.
-- **Never** duplicate the hero `<section>` wrapper in `app/page.js`.
+2. **Configure environment:**
+   Copy the provided example environment file for your local configuration.
+
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-*End of DESIGN.md — Maintained as the canonical architecture reference for Vardhman School Uniforms.*
+## ✅ Code Quality
+
+- **Pure JavaScript** — zero TypeScript, zero compilation step, clean ES Modules throughout.
+- **Zero Hydration Mismatches** — all client stores use `useSyncExternalStore` with static server snapshots; no browser-only globals evaluated during SSR.
+- **Strict Linting** — ESLint v9 flat config with `eslint-config-next` Core Web Vitals preset enforces accessibility and performance rules.
+- **Semantic HTML** — `<nav>`, `<main>`, `<section>`, `<article>` landmarks with ARIA labels; keyboard-navigable modals with focus trapping and `Escape` to close.
+
+---
+
+## 📄 License &amp; Attribution
+
+&copy; 1979&ndash;2026 **Vardhman School Uniforms & Dresses**. All rights reserved.
+*All institutional insignias, school emblems, and registered uniform designs are the property of their respective partner institutions.*
+
+---
+
+<p align="center">
+  <img src="docs/readme/divider.svg" alt="Divider" width="100%" />
+</p>
+
+<p align="center">
+  <sub>Built with care for <strong>Vardhman School Uniforms &amp; Dresses</strong> • Est. 1979</sub>
+</p>

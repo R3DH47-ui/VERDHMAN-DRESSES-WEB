@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 420" width="100%" height="100%">
+  <style>
+    .bg-p{fill:#0D0D0F} .hdr-t{fill:#FFF} .hdr-s{fill:#909096}
+    @media(prefers-color-scheme:light){.bg-p{fill:#FAF8F5!important;stroke:#E8E4DE!important} .hdr-t{fill:#111!important} .hdr-s{fill:#6B6B6B!important}}
+    .sans{font-family:Inter,Roboto,-apple-system,sans-serif}
+    @keyframes softP{0%,100%{opacity:0.95}50%{opacity:1}} .sw-anim{animation:softP 4s ease-in-out infinite}
+    @media(prefers-reduced-motion:reduce){*,.sw-anim{animation:none!important}}
+  </style>
+  <rect width="940" height="420" rx="16" class="bg-p" stroke="rgba(255,255,255,0.08)" stroke-width="1.2"/>
+  <text x="20" y="28" font-size="11" font-weight="700" letter-spacing="0.6" class="sans hdr-t">DESIGN TOKENS (APP/GLOBALS.CSS @THEME)</text>
+  <text x="920" y="28" font-size="10.5" font-weight="500" text-anchor="end" class="sans hdr-s">16 Semantic Color Tokens</text>
+  <g transform="translate(20,44)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#FAF8F5" stroke="#E8E4DE" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-paper</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#FAF8F5</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Warm Canvas</text>
+    </g><g transform="translate(244,44)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#FFFFFF" stroke="#E8E4DE" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-surface</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#FFFFFF</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Cards & Panels</text>
+    </g><g transform="translate(468,44)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#F5F2ED" stroke="#E8E4DE" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-tile</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#F5F2ED</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Image Frames</text>
+    </g><g transform="translate(692,44)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#E8E4DE" stroke="#D6D0C7" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-line</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#E8E4DE</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Dividers</text>
+    </g><g transform="translate(20,136)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#D6D0C7" stroke="#C0BAB0" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-line-strong</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#D6D0C7</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Active Borders</text>
+    </g><g transform="translate(244,136)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#111111" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-ink</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#111111</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Headlines</text>
+    </g><g transform="translate(468,136)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#3D3D3D" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-body</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#3D3D3D</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Body Copy</text>
+    </g><g transform="translate(692,136)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#6B6B6B" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-muted</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#6B6B6B</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Captions</text>
+    </g><g transform="translate(20,228)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#B30000" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-brand</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#B30000</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Crimson Primary</text>
+    </g><g transform="translate(244,228)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#8F0000" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-brand-dark</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#8F0000</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Pressed State</text>
+    </g><g transform="translate(468,228)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#FDECEC" stroke="#F2C6C6" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-brand-tint</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#FDECEC</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Brand Badge BG</text>
+    </g><g transform="translate(692,228)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#F2C6C6" stroke="#E8AAAA" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-brand-line</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#F2C6C6</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Brand Accent</text>
+    </g><g transform="translate(20,320)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#15803D" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-success</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#15803D</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Positive / Savings</text>
+    </g><g transform="translate(244,320)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#E8F5EC" stroke="#B4DFC0" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-success-tint</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#E8F5EC</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Success Badge BG</text>
+    </g><g transform="translate(468,320)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#B45309" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#FFF" class="sans">--color-warning</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#FFF" class="sans">#B45309</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="rgba(255,255,255,0.7)" class="sans">Pending / Amber</text>
+    </g><g transform="translate(692,320)" class="sw-anim">
+      <rect width="210" height="80" rx="10" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+      <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-warning-tint</text>
+      <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
+      <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#FEF3C7</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Warning Badge BG</text>
+    </g>
+</svg>
