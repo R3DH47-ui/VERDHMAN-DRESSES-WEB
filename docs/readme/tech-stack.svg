@@ -7,10 +7,10 @@
       .bg-c{fill:#FAF8F5!important;stroke:#E8E4DE!important} .icon-adaptive{fill:#000!important}
     }
     .bg-c{fill:#0D0D0F} .sans{font-family:Inter,Roboto,-apple-system,sans-serif}
-    @keyframes f1{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-    @keyframes f2{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-    @keyframes f3{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
-    @keyframes f4{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+    @keyframes f1{0%,100%{opacity:1}50%{opacity:0.92}}
+    @keyframes f2{0%,100%{opacity:1}50%{opacity:0.94}}
+    @keyframes f3{0%,100%{opacity:1}50%{opacity:0.93}}
+    @keyframes f4{0%,100%{opacity:1}50%{opacity:0.95}}
     .fl-1{animation:f1 4.5s ease-in-out infinite} .fl-2{animation:f2 5s .5s ease-in-out infinite}
     .fl-3{animation:f3 4.8s 1s ease-in-out infinite} .fl-4{animation:f4 5.3s 1.5s ease-in-out infinite}
     @media(prefers-reduced-motion:reduce){*,.fl-1,.fl-2,.fl-3,.fl-4{animation:none!important}}
@@ -49,7 +49,7 @@
       <rect width="455" height="185" rx="14" class="grp-bg" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
       <rect x="0" y="0" width="455" height="30" rx="14" fill="#FFFFFF" opacity="0.08"/>
       <circle cx="16" cy="17" r="4" fill="#FFFFFF"/>
-      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">FRAMEWORK & RUNTIME</text>
+      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">FRAMEWORK &amp; RUNTIME</text>
       <g transform="translate(10,36)"><g transform="translate(0,0)" class="fl-1">
           <rect width="210" height="44" rx="9" class="chip-bg" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
           <rect x="6" y="6" width="28" height="28" rx="6" fill="#FFFFFF" fill-opacity="0.14"/>
@@ -72,7 +72,7 @@
       <rect width="455" height="185" rx="14" class="grp-bg" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
       <rect x="0" y="0" width="455" height="30" rx="14" fill="#06B6D4" opacity="0.08"/>
       <circle cx="16" cy="17" r="4" fill="#06B6D4"/>
-      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">STYLING & UI</text>
+      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">STYLING &amp; UI</text>
       <g transform="translate(10,36)"><g transform="translate(0,0)" class="fl-4">
           <rect width="210" height="44" rx="9" class="chip-bg" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
           <rect x="6" y="6" width="28" height="28" rx="6" fill="#06B6D4" fill-opacity="0.14"/>
@@ -107,7 +107,7 @@
       <rect width="455" height="185" rx="14" class="grp-bg" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
       <rect x="0" y="0" width="455" height="30" rx="14" fill="#4B32C3" opacity="0.08"/>
       <circle cx="16" cy="17" r="4" fill="#4B32C3"/>
-      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">TOOLING & QUALITY</text>
+      <text x="28" y="21" font-size="11" font-weight="700" letter-spacing="0.5" class="grp-title sans">TOOLING &amp; QUALITY</text>
       <g transform="translate(10,36)"><g transform="translate(0,0)" class="fl-1">
           <rect width="210" height="44" rx="9" class="chip-bg" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
           <rect x="6" y="6" width="28" height="28" rx="6" fill="#4B32C3" fill-opacity="0.14"/>

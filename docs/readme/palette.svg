@@ -20,7 +20,7 @@
       <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-surface</text>
       <rect x="12" y="28" width="68" height="18" rx="4" fill="rgba(0,0,0,0.05)"/>
       <text x="46" y="41" font-size="10" font-weight="600" text-anchor="middle" fill="#111" class="sans">#FFFFFF</text>
-      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Cards & Panels</text>
+      <text x="12" y="62" font-size="9.5" font-weight="500" fill="#6B6B6B" class="sans">Cards &amp; Panels</text>
     </g><g transform="translate(468,44)" class="sw-anim">
       <rect width="210" height="80" rx="10" fill="#F5F2ED" stroke="#E8E4DE" stroke-width="1"/>
       <text x="12" y="20" font-size="11.5" font-weight="700" fill="#111" class="sans">--color-tile</text>
